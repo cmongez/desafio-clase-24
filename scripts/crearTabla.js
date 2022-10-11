@@ -1,9 +1,8 @@
-import knex from 'knex'
-import config from '../src/config.js'
+import knex from 'knex';
+import config from '../src/config.js';
 
 //------------------------------------------
-// productos en MariaDb
+// productos en MariaD
 
 try {
-} catch (error) {
-}
+} catch (error) {}
