@@ -1,55 +1,55 @@
 class ContenedorMemoria {
+  constructor() {
+    (this.productos = []), (this.id = 1);
+  }
 
-    constructor() {
-        this.elementos = []
+  save(obj) {
+    try {
+      obj.id = this.id;
+      this.productos = [...this.productos, obj];
+      this.id++;
+    } catch (error) {
+      console.log('error en Save');
     }
+  }
 
-    listar(id) {
-        const elem = this.elementos.find(elem => elem.id == id)
-        return elem || { error: `elemento no encontrado` }
+  getById(id) {
+    try {
+      const producto = this.getAll();
+      const productsById = producto.find((p) => p.id == id);
+      return productsById;
+    } catch (error) {
+      console.log('error en getById');
     }
+  }
 
-    listarAll() {
-        return [...this.elementos]
+  getAll() {
+    try {
+      console.log(JSON.stringify(this.productos));
+      return JSON.parse(JSON.stringify(this.productos));
+    } catch (error) {
+      console.log('error en GetAll');
     }
+  }
 
-    guardar(elem) {
-
-        let newId
-        if (this.elementos.length == 0) {
-            newId = 1
-        } else {
-            newId = this.elementos[this.elementos.length - 1].id + 1
-        }
-
-        const newElem = { ...elem, id: newId }
-        this.elementos.push(newElem)
-        return newElem
+  update(prod, id) {
+    try {
+      prod.id = id;
+      this.productos[id - 1] = prod;
+    } catch (error) {
+      console.log(error);
     }
+  }
 
-    actualizar(elem) {
-        const newElem = { ...elem, id: Number(elem.id) }
-        const index = this.elementos.findIndex(p => p.id == elem.id)
-        if (index == -1) {
-            return { error: `elemento no encontrado` }
-        } else {
-            this.elementos[index] = newElem
-            return newElem
-        }
+  deleteById(id) {
+    try {
+      const producto = this.getAll();
+      const productsById = producto.filter((p) => p.id != id);
+      this.productos = productsById;
+    } catch (error) {
+      console.log('error en deleteById');
     }
-
-    borrar(id) {
-        const index = this.elementos.findIndex(elem => elem.id == id)
-        if (index == -1) {
-            return { error: `elemento no encontrado` }
-        } else {
-            return this.elementos.splice(index, 1)
-        }
-    }
-
-    borrarAll() {
-        this.elementos = []
-    }
+  }
 }
 
-export default ContenedorMemoria
+export default ContenedorMemoria;

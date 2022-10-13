@@ -1,18 +1,18 @@
 export default {
-    PORT: process.env.PORT || 8080,
-    mongoLocal: {
-        
+  sqlite3: {
+    client: 'sqlite3',
+    connection: {
+      filename: `./DB/ecommerce.sqlite`,
     },
-    mongoRemote: {
-        
+    useNullAsDefault: true,
+  },
+  mariaDb: {
+    client: 'mysql',
+    connection: {
+      host: 'localhost',
+      user: 'root',
+      password: '',
+      database: 'coderhouse',
     },
-    sqlite3: {
-        
-    },
-    mariaDb: {
-        
-    },
-    fileSystem: {
-        
-    }
-}
+  },
+};
