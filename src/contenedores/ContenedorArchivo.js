@@ -1,34 +1,65 @@
-import { promises as fs } from 'fs'
+import { promises as fs } from 'fs';
+
+let array = [];
 
 class ContenedorArchivo {
-
-    constructor(ruta) {
-        this.ruta = ruta;
+  constructor() {
+    this.nombreArchivo = 'archivos';
+  }
+  async getById(id) {
+    try {
+      const producto = await this.getAll();
+      const productsById = producto.find((p) => p.id === id);
+      return productsById;
+    } catch (error) {
+      console.log('error en getById');
     }
-
-    async listar(id) {
-        
+  }
+  async save(obj) {
+    try {
+      array = await this.getAll();
+      array = [...array, obj];
+      await fs.writeFile(
+        './' + this.nombreArchivo + '.txt',
+        JSON.stringify(array) + '\n'
+      );
+    } catch (error) {
+      console.log('error en Save');
     }
+  }
 
-    async listarAll() {
-       
+  async getAll() {
+    try {
+      const productos = await fs.readFile(
+        './' + this.nombreArchivo + '.txt',
+        'utf8'
+      );
+      return JSON.parse(productos);
+    } catch (error) {
+      console.log('error en GetAll');
     }
+  }
 
-    async guardar(elem) {
-        
+  async deleteById(id) {
+    try {
+      const producto = await this.getAll();
+      const productsById = producto.filter((p) => p.id != id);
+      await fs.writeFile(
+        './' + this.nombreArchivo + '.txt',
+        JSON.stringify(productsById)
+      );
+    } catch (error) {
+      console.log('error en deleteById');
     }
+  }
 
-    async actualizar(elem) {
-        
-    }
-
-    async borrar(id) {
-        
-    }
-
-    async borrarAll() {
-        
-    }
+  async deleteAll() {
+    array = [];
+    const productos = await fs.writeFile(
+      './' + this.nombreArchivo + '.txt',
+      JSON.stringify(array)
+    );
+  }
 }
 
-export default ContenedorArchivo
+export default ContenedorArchivo;
